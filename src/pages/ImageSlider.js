@@ -1,18 +1,35 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import axiosInstance from "../axios";
+
 const ImageSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [scrollY, setScrollY] = useState(0);
-  const [transitioning, setTransitioning] = useState(false);
+  const [previousIndex, setPreviousIndex] = useState(0);
   const [slides, setSlidesData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [direction, setDirection] = useState(1); // 1 for right, -1 for left
+  const slidesRef = useRef({});
+
+  // Preload images
+  useEffect(() => {
+    const preloadImages = (imageUrls) => {
+      imageUrls.forEach((url) => {
+        const img = new Image();
+        img.src = url;
+        slidesRef.current[url] = img;
+      });
+    };
+
+    if (slides.length > 0) {
+      preloadImages(slides.map(slide => slide.image_url));
+      setIsLoading(false);
+    }
+  }, [slides]);
 
   useEffect(() => {
     const fetchSlides = async () => {
       try {
-        const response = await axiosInstance.get('/carousel/carousels')
-
-        // const data = await response.json();
+        const response = await axiosInstance.get('/carousel/carousels');
         setSlidesData(
           response.data.map((item) => ({
             image_url: item.image_url,
@@ -29,21 +46,19 @@ const ImageSlider = () => {
   }, []);
 
   const prevSlide = () => {
-    if (transitioning) return;
-    setTransitioning(true);
+    setPreviousIndex(currentIndex);
+    setDirection(-1);
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? slides.length - 1 : prevIndex - 1
     );
-    setTimeout(() => setTransitioning(false), 200);
   };
 
   const nextSlide = () => {
-    if (transitioning) return;
-    setTransitioning(true);
+    setPreviousIndex(currentIndex);
+    setDirection(1);
     setCurrentIndex((prevIndex) =>
       prevIndex === slides.length - 1 ? 0 : prevIndex + 1
     );
-    setTimeout(() => setTransitioning(false), 200);
   };
 
   useEffect(() => {
@@ -51,96 +66,150 @@ const ImageSlider = () => {
       nextSlide();
     }, 5000);
     return () => clearInterval(autoSlide);
-  }, [slides.length]);
+  }, [currentIndex, slides.length]);
 
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  if (slides.length === 0 || isLoading) {
+    return (
+      <div className="relative w-full h-[90vh] bg-gray-800 flex items-center justify-center">
+        <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
-  if (slides.length === 0) {
-    return <div>No slides available</div>;
-  }
-  const urlBuilder = (url)=>{
-    return  url;
-  }
   return (
     <div className="relative w-full h-[90vh] overflow-hidden">
-     <div
-  className={`absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 ease-in-out ${
-    transitioning ? "opacity-0" : "opacity-100"
-  }`}
+      <AnimatePresence initial={false} mode="popLayout">
+        <motion.div
+          key={currentIndex}
+          className="absolute inset-0 w-full h-full"
+          initial={{ 
+            x: direction > 0 ? "100%" : "-100%",
+            opacity: 0.5
+          }}
+          animate={{ 
+            x: 0,
+            opacity: 1 
+          }}
+          exit={{ 
+            x: direction > 0 ? "-100%" : "100%",
+            opacity: 0.5
+          }}
+          transition={{ 
+            type: "tween", 
+            ease: "easeInOut", 
+            duration: 0.6 
+          }}
+        >
+          <div 
+  className="absolute inset-0 w-full h-full bg-cover bg-center"
   style={{
-    backgroundImage: `url(${urlBuilder(slides[currentIndex].image_url)})`,
-    backgroundAttachment: "fixed", // Makes the background image static
-    backgroundPosition: "center", // Ensures the image is centered
-    backgroundSize: "cover", // Ensures the image covers the entire area
+    backgroundImage: `url(${slides[currentIndex].image_url})`,
+    backgroundAttachment: "fixed",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    // Fallback background when image fails to load
+    backgroundColor: "#000",
+    backgroundImage: `url(${slides[currentIndex].image_url}), linear-gradient(135deg, #000 0%, #0a2463 100%)`,
   }}
 >
-  <div className="absolute inset-0 bg-black opacity-30"></div>
+  <div className="absolute inset-0 bg-black opacity-40"></div>
 </div>
+        </motion.div>
+      </AnimatePresence>
 
-      <div className="absolute inset-0 flex flex-col justify-center items-center text-white px-4 md:px-10 absolute inset-0 bg-gradient-to-b from-black/60 to-transparent">
-        <motion.h1
-          className="text-3xl md:text-8xl font-bold text-center"
-          style={{
-            fontFamily: "Canela Deck Web, serif",
-            fontStyle: "normal",
-            fontWeight: "400",
-            letterSpacing: "-0.1px",
-            lineHeight: "1.15",
-          }}
-          initial={{ opacity: 0, y: 50 }} // Initial state: fully transparent and 50px down
-          animate={{ opacity: 1, y: 0 }} // End state: fully visible and in normal position
-          transition={{ duration: 1, ease: "easeOut" }} // Smooth transition
-        >
-          {slides[currentIndex].title}
-        </motion.h1>
-        <p
-          className="mt-2 text-lg md:text-2xl text-center max-w-[80%]"
-          style={{ letterSpacing: "-.1px", lineHeight: "1.5",fontWeight:'light' }}
-        >
-          {slides[currentIndex].subtext}
-        </p>
-        {slides[currentIndex].link && (
-          <a
-            href={slides[currentIndex].link}
-            target="_blank"
-            rel="noopener noreferrer"
+      <div className="absolute inset-0 flex flex-col justify-center items-center text-white px-4 md:px-10 z-2 bg-gradient-to-b from-black/50 via-black/30 to-transparent">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`content-${currentIndex}`}
+            className="text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <button className="mt-2 px-6 py-1 bg-opacity-20 backdrop-blur-lg rounded-md text-white text-lg transform transition-transform duration-300 ease-in-out hover:scale-105">
-              See More
-            </button>
-          </a>
-        )}
+            <motion.h1
+              className="text-3xl md:text-8xl font-bold text-center mb-4"
+              style={{
+                fontFamily: "Canela Deck Web, serif",
+                fontStyle: "normal",
+                fontWeight: "400",
+                letterSpacing: "-0.1px",
+                lineHeight: "1.15",
+                textShadow: "0 4px 6px rgba(0, 0, 0, 0.3)"
+              }}
+            >
+              {slides[currentIndex].title}
+            </motion.h1>
+            <motion.p
+              className="mt-2 text-lg md:text-2xl text-center max-w-[80%] mx-auto"
+              style={{ 
+                letterSpacing: "-.1px", 
+                lineHeight: "1.5", 
+                fontWeight: "300",
+                textShadow: "0 2px 4px rgba(0, 0, 0, 0.2)"
+              }}
+            >
+              {slides[currentIndex].subtext}
+            </motion.p>
+            {slides[currentIndex].link && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="mt-6"
+              >
+                <a
+                  href={slides[currentIndex].link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block"
+                >
+                  <button className="px-8 py-2 bg-white bg-opacity-20 backdrop-blur-lg rounded-md text-white text-lg border border-white/30 hover:bg-white/30 hover:border-white/50 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg">
+                    See More
+                  </button>
+                </a>
+              </motion.div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              currentIndex === index ? "w-8 bg-white" : "bg-white/40"
+            }`}
+            onClick={() => {
+              setPreviousIndex(currentIndex);
+              setDirection(index > currentIndex ? 1 : -1);
+              setCurrentIndex(index);
+            }}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
       </div>
 
       <button
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-opacity-20 backdrop-blur-lg text-white p-4 rounded-full focus:outline-none hover:bg-opacity-40"
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/30 backdrop-blur-lg text-white p-3 rounded-full focus:outline-none hover:bg-black/50 transition-all duration-300"
         onClick={prevSlide}
+        aria-label="Previous slide"
       >
-        &#10094;
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
       </button>
 
       <button
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-opacity-20 backdrop-blur-lg text-white p-4 rounded-full focus:outline-none hover:bg-opacity-40"
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/30 backdrop-blur-lg text-white p-3 rounded-full focus:outline-none hover:bg-black/50 transition-all duration-300"
         onClick={nextSlide}
+        aria-label="Next slide"
       >
-        &#10095;
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
       </button>
-      {/* 
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        {slides.map((_, index) => (
-          <div
-            key={index}
-            className={`w-3 h-3 rounded-full cursor-pointer ${
-              currentIndex === index ? "bg-white" : "bg-gray-500"
-            }`}
-            onClick={() => setCurrentIndex(index)}
-          />
-        ))}
-      </div> */}
     </div>
   );
 };
