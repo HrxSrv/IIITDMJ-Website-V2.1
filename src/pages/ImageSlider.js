@@ -174,7 +174,7 @@ const ImageSlider = () => {
         </AnimatePresence>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+      {/* <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
         {slides.map((_, index) => (
           <button
             key={index}
@@ -189,7 +189,7 @@ const ImageSlider = () => {
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
-      </div>
+      </div> */}
 
       <button
         className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/30 backdrop-blur-lg text-white p-3 rounded-full focus:outline-none hover:bg-black/50 transition-all duration-300"

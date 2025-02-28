@@ -76,7 +76,7 @@ const Footer = () => {
       </a>
     );
   return (
-    <footer className="relative z-10">
+    <footer className="relative z-8">
       {/* <ErrorThrowingComponent/> */}
        {/* <ErrorThrowingComponent/> */}
       {/* Top Footer Area */}

@@ -141,7 +141,7 @@ function Home() {
 
             {/* News Section */}
             <section className="px-6 py-10 bg-gray-50/50">
-              <div className="max-w-7xl mx-auto">
+              <div className="max-w-[80vw] mx-auto">
                 <div className="flex items-center justify-between mb-6">
                   <div>
                     <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
@@ -169,7 +169,7 @@ function Home() {
 
             {/* Announcements & Notices Section */}
             <section className="px-6 py-10">
-              <div className="max-w-7xl mx-auto">
+              <div className="max-w-[80vw] mx-auto">
                 <div className="mb-8">
                   <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
                     Recent <span className="text-blue-600">Announcements</span>

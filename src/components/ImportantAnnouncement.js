@@ -168,7 +168,7 @@ const ImportantAnnouncement = () => {
           <p className="text-red-500 text-sm mb-6 max-w-md mx-auto">{error.details}</p>
           <button 
             onClick={() => fetchData()}
-            className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-full hover:from-red-600 hover:to-red-700 transition-colors shadow-sm hover:shadow-md flex items-center mx-auto"
+            className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-full hover:from-red-800 hover:to-red-700 transition-colors shadow-sm hover:shadow-md flex items-center mx-auto"
           >
             <RefreshCw className="mr-2 w-4 h-4 animate-spin-slow" /> Retry
           </button>
@@ -211,7 +211,7 @@ const ImportantAnnouncement = () => {
         {hasMoreAnnouncements && (
           <Link
             to="/allImportantAnnouncements"
-            className="group flex items-center justify-center gap-2 w-full max-w-md mx-auto mt-8 px-6 py-3 text-sm font-medium text-red-700 bg-gradient-to-r from-red-50 to-red-100 hover:from-red-100 hover:to-red-200 rounded-full transition-all duration-300 shadow-sm hover:shadow border border-red-200"
+            className="group flex items-center justify-center gap-2 w-full max-w-md mx-auto mt-8 px-6 py-3 text-sm font-medium text-black-700 hover:text-red-800 bg-gradient-to-r from-grey-50 to-red-grey hover:from-red-100 hover:to-red-200 rounded-xl transition-all duration-300 shadow-sm hover:shadow border border-red-200"
           >
             <span>See All Announcements</span>
             <div className="bg-white p-1 rounded-full">
@@ -252,7 +252,7 @@ const ImportantAnnouncement = () => {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto  py-6">
+    <div className="w-full max-w-[80vw] mx-auto  py-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
           <div className="bg-gradient-to-br from-red-100 to-red-200 p-2 rounded-lg shadow-sm">

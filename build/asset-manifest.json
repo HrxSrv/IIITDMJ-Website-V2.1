@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "./static/css/main.0dd0ac17.css",
-    "main.js": "./static/js/main.5447bfb8.js",
+    "main.css": "./static/css/main.aec1f771.css",
+    "main.js": "./static/js/main.880b7a15.js",
     "static/js/171.6cf6aae7.chunk.js": "./static/js/171.6cf6aae7.chunk.js",
     "static/js/797.dbf4e942.chunk.js": "./static/js/797.dbf4e942.chunk.js",
-    "static/js/939.e42319b8.chunk.js": "./static/js/939.e42319b8.chunk.js",
+    "static/js/939.11baf871.chunk.js": "./static/js/939.11baf871.chunk.js",
     "static/js/537.3989f0fb.chunk.js": "./static/js/537.3989f0fb.chunk.js",
     "static/js/419.cde8f137.chunk.js": "./static/js/419.cde8f137.chunk.js",
     "static/js/653.44c5cee6.chunk.js": "./static/js/653.44c5cee6.chunk.js",
@@ -18,11 +18,11 @@
     "static/media/newsPlaceHolder.png": "./static/media/newsPlaceHolder.36da1fc20ac8111624d8.png",
     "static/media/IIIT_logo_1.png": "./static/media/IIIT_logo_1.64a006379d6acc84fd22.png",
     "index.html": "./index.html",
-    "main.0dd0ac17.css.map": "./static/css/main.0dd0ac17.css.map",
-    "main.5447bfb8.js.map": "./static/js/main.5447bfb8.js.map",
+    "main.aec1f771.css.map": "./static/css/main.aec1f771.css.map",
+    "main.880b7a15.js.map": "./static/js/main.880b7a15.js.map",
     "171.6cf6aae7.chunk.js.map": "./static/js/171.6cf6aae7.chunk.js.map",
     "797.dbf4e942.chunk.js.map": "./static/js/797.dbf4e942.chunk.js.map",
-    "939.e42319b8.chunk.js.map": "./static/js/939.e42319b8.chunk.js.map",
+    "939.11baf871.chunk.js.map": "./static/js/939.11baf871.chunk.js.map",
     "537.3989f0fb.chunk.js.map": "./static/js/537.3989f0fb.chunk.js.map",
     "419.cde8f137.chunk.js.map": "./static/js/419.cde8f137.chunk.js.map",
     "653.44c5cee6.chunk.js.map": "./static/js/653.44c5cee6.chunk.js.map",
@@ -32,7 +32,7 @@
     "780.2bda8c0c.chunk.js.map": "./static/js/780.2bda8c0c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0dd0ac17.css",
-    "static/js/main.5447bfb8.js"
+    "static/css/main.aec1f771.css",
+    "static/js/main.880b7a15.js"
   ]
 }
