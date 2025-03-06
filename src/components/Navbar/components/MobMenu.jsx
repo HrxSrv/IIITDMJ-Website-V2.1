@@ -49,7 +49,7 @@ export default function MobMenu({ Menus, logo, isOpen, setIsOpen }) {
             transition={{ type: "tween", duration: 0.3 }}
           >
             {/* Mobile Menu Header */}
-            <div className="sticky top-0 z-50 flex items-center justify-between p-4 border-b border-white/10 bg-[#18181A]">
+            <div className="relative top-0 z-50 flex items-center justify-between !p-8 border-b border-white/10 bg-[#18181A]">
               <Link to="/">
                 <img
                   src={logo}

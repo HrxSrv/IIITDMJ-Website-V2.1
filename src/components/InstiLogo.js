@@ -108,6 +108,7 @@
 
 import Logo from "../resources/images/IIIT_logo_1.png"
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from "framer-motion";
 // import Iconfrom "../../"
 const InstituteBanner = ({ isVisible }) => {
   const [isHindi, setIsHindi] = useState(0);
@@ -149,7 +150,7 @@ const InstituteBanner = ({ isVisible }) => {
                     : 'opacity-0 -translate-y-full'
                 }`}
               >
-                <h2 className="text-lg md:text-4xl lg:text-3xl font-semibold text-white">
+                <h2 className="text-lg md:text-4xl lg:text-3xl font-semibold text-white" style={{textShadow: "0 4px 6px rgba(0, 0, 0, 0.3)"}}>
                   भारतीय सूचना प्रौद्योगिकी, अभिकल्प एवं विनिर्माण संसथान जबलपुर
                 </h2>
               </div>
@@ -162,9 +163,9 @@ const InstituteBanner = ({ isVisible }) => {
                     : 'opacity-0 translate-y-full'
                 }`}
               >
-                <h2 className="text-xl md:text-4xl lg:text-3xl text-white mb-1">
+                <motion.h2 className="text-xl md:text-4xl lg:text-3xl text-white mb-1" style={{textShadow: "0 4px 6px rgba(0, 0, 0, 0.3)"}}>
                   PDPM Indian Institute of Information Technology Design and Manufacturing Jabalpur
-                </h2>
+                </motion.h2>
               </div>
               {/* LOGO */}
               <div 

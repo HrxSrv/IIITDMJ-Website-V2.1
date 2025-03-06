@@ -39,17 +39,17 @@ const FocusCard = ({ title, link, animation }) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="shadow-lg relative h-full p-8 flex flex-col items-center justify-center rounded-lg text-center bg-opacity-90 transition-all duration-300 hover:shadow-2xl overflow-hidden">
-        <div className="w-26 h-26 cursor-pointer">
+      <div className="shadow-lg relative w-full  min-h-full md:min-h-[250px] p-6 md:p-8 flex flex-col items-center justify-center rounded-lg text-center bg-opacity-90 transition-all duration-300 hover:shadow-2xl overflow-hidden">
+        <div className="w-16 h-16 md:w-24 md:h-24 cursor-pointer">
           <Lottie
             options={defaultOptions}
-            height={100}
-            width={100}
+            height="100%"
+            width="100%"
             isClickToPauseDisabled={true}
             ref={lottieRef}
           />
         </div>
-        <h3 className="font-light text-lg text-black group-hover:text-blue-800 transition-colors duration-300 mt-4">
+        <h3 className="font-light text-md md:text-xl text-black group-hover:text-blue-800 transition-colors duration-300 mt-4">
           {title}
         </h3>
       </div>
@@ -60,22 +60,22 @@ const FocusCard = ({ title, link, animation }) => {
 const FocusOn = () => {
   const focusAreas = [
     {
-      title: 'RESEARCH',
+      title: 'Research',
       animation: research,
       to: 'https://www.iiitdmj.ac.in/dew.iiitdmj.ac.in/Home.html',
     },
     {
-      title: 'ELECTRONICS & ICT',
+      title: 'Electronics & Ict',
       animation: electronics,
       to: 'https://www.iiitdmj.ac.in/ict.iiitdmj.ac.in/',
     },
     {
-      title: 'INNOVATION',
+      title: 'Innovation',
       animation: innovation,
       to: 'http://www.iiitdmj.ac.in/MIC.php',
     },
     {
-      title: 'STARTUP',
+      title: 'Startup',
       animation: startup,
       to: 'http://startup.iiitdmj.ac.in/',
     }

@@ -78,7 +78,7 @@ function Home() {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* Achievements Section */}
       <div className="lg:col-span-2">
-        <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden p-5 h-full">
+        {/* <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden p-5 h-full"> */}
           <SectionHeader 
             title="Achievements" 
             linkTo="/achievementsPage"
@@ -86,12 +86,12 @@ function Home() {
           <Suspense fallback={<SectionLoader />}>
             <AchievementsSlider />
           </Suspense>
-        </div>
+        {/* </div> */}
       </div>
 
       {/* Notices Section */}
       <div>
-        <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden p-5 h-full">
+        {/* <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden p-5 h-full"> */}
           <SectionHeader 
             title="Notices" 
             linkTo="/noticespage"
@@ -100,7 +100,7 @@ function Home() {
             <Notices />
           </Suspense>
         </div>
-      </div>
+      {/* </div> */}
     </div>
   );
 
@@ -145,9 +145,9 @@ function Home() {
                 <div className="flex items-center justify-between mb-6">
                   <div>
                     <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
-                      Latest <span className="text-blue-600">Updates</span>
+                      Latest <span className="text-2xl text-blue-600">Updates</span>
                     </h2>
-                    <p className="text-gray-600 mt-1 font-light">Get all the latest information here</p>
+                    <p className="text-gray-600 mt-1 font-light">Institute at a Glance</p>
                     <div className="w-16 h-0.5 bg-blue-500 mt-2"></div>
                   </div>
                   <Link
@@ -172,7 +172,7 @@ function Home() {
               <div className="max-w-[80vw] mx-auto">
                 <div className="mb-8">
                   <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
-                    Recent <span className="text-blue-600">Announcements</span>
+                    Recent <span className="text-2xl text-blue-600">Announcements</span>
                   </h2>
                   <p className="text-gray-600 mt-1 font-light">Campus Bulletins</p>
                   <div className="w-16 h-0.5 bg-blue-500 mt-2"></div>

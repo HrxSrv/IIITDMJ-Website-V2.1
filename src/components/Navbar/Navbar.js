@@ -57,8 +57,8 @@ const Navbar = () => {
         className={`
           h-20 text-[15px]
           ${isSticky
-            ? "fixed top-0 z-10 bg-white shadow-lg py-10 transition-all duration-300 opacity-100"
-            : "relative w-full text-white opacity-100 transition-all duration-300 relative -top-10 z-10"
+            ? "fixed top-0 z-30 bg-white shadow-lg py-10 transition-all duration-300 opacity-100"
+            : "relative w-full text-white opacity-100 transition-all duration-300 relative -top-10 z-30"
           }
           inset-0 flex-center
         `}

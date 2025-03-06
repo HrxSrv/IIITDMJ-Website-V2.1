@@ -192,7 +192,7 @@ const ImageSlider = () => {
       </div> */}
 
       <button
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/30 backdrop-blur-lg text-white p-3 rounded-full focus:outline-none hover:bg-black/50 transition-all duration-300"
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-black/30 backdrop-blur-lg text-white p-3 rounded-full focus:outline-none hover:bg-black/50 transition-all duration-300"
         onClick={prevSlide}
         aria-label="Previous slide"
       >
@@ -202,7 +202,7 @@ const ImageSlider = () => {
       </button>
 
       <button
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/30 backdrop-blur-lg text-white p-3 rounded-full focus:outline-none hover:bg-black/50 transition-all duration-300"
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-black/30 backdrop-blur-lg text-white p-3 rounded-full focus:outline-none hover:bg-black/50 transition-all duration-300"
         onClick={nextSlide}
         aria-label="Next slide"
       >

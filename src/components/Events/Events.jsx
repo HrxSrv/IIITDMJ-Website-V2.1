@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 const EventCard = ({ event }) => (
   <motion.div
     whileHover={{ scale: 1.02 }}
-    className="relative min-w-[260px] md:min-w-[295px] h-[200px] rounded-xl overflow-hidden shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.05),0_0_0_1px_rgba(0,0,0,0.05),4px_4px_8px_rgba(0,0,0,0.1)] group bg-white"
+    className="relative min-w-[260px] w-full max-w-xs h-[200px] rounded-xl overflow-hidden shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.05),0_0_0_1px_rgba(0,0,0,0.05),4px_4px_8px_rgba(0,0,0,0.1)] group bg-white"
   >
-    <Link to={`/event/${event.id}`}>
+    <Link to={`/event/${event.id}`} className="block h-full w-full">
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
         style={{
@@ -44,12 +44,30 @@ const EventCard = ({ event }) => (
 const EventsSection = ({ events }) => {
   const scrollRef = React.useRef(null);
   const [isScrolling, setIsScrolling] = React.useState(false);
+  const [showControls, setShowControls] = React.useState(false);
+
+  // Check if content is scrollable
+  React.useEffect(() => {
+    const checkScrollable = () => {
+      const { current } = scrollRef;
+      if (current) {
+        setShowControls(current.scrollWidth > current.clientWidth);
+      }
+    };
+
+    checkScrollable();
+    window.addEventListener('resize', checkScrollable);
+    return () => window.removeEventListener('resize', checkScrollable);
+  }, [events]);
 
   const scroll = (direction) => {
     const { current } = scrollRef;
     if (current && !isScrolling) {
       setIsScrolling(true);
-      const scrollAmount = direction === 'left' ? -350 : 350;
+      
+      // Adjust scroll amount based on screen size
+      const cardWidth = window.innerWidth < 640 ? 280 : 350;
+      const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
       
       const isAtEnd = Math.abs(
         current.scrollLeft + current.offsetWidth - current.scrollWidth
@@ -75,6 +93,8 @@ const EventsSection = ({ events }) => {
     let interval;
 
     const startAutoScroll = () => {
+      if (!showControls) return; // Don't auto-scroll if not scrollable
+      
       interval = setInterval(() => {
         if (current && !isScrolling) {
           const isAtEnd = Math.abs(
@@ -107,50 +127,74 @@ const EventsSection = ({ events }) => {
       current?.removeEventListener('mouseenter', pauseScroll);
       current?.removeEventListener('mouseleave', startAutoScroll);
     };
-  }, [isScrolling]);
+  }, [isScrolling, showControls]);
 
   return (
-    <div className="w-[90vw] bg-gray-100 py-16 px-8 rounded-lg shadow-lg mx-auto">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between mb-8">
+    <section className="w-full py-12 md:py-16 bg-gray-100 rounded-lg">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-6 md:mb-8">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900">Events Gallery</h2>
-            <p className="text-gray-600 mt-2">Discover our recent and upcoming events</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Events Gallery</h2>
+            <p className="text-gray-600 mt-1 md:mt-2">Discover our recent and upcoming events</p>
           </div>
-          <div className="flex gap-2">
-            <button
-              onClick={() => scroll('left')}
-              className="p-2 rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors"
-              disabled={isScrolling}
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={() => scroll('right')}
-              className="p-2 rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors"
-              disabled={isScrolling}
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </div>
+          
+          {showControls && (
+            <div className="flex gap-2">
+              <button
+                onClick={() => scroll('left')}
+                className="p-2 rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors"
+                disabled={isScrolling}
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+              </button>
+              <button
+                onClick={() => scroll('right')}
+                className="p-2 rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors"
+                disabled={isScrolling}
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+              </button>
+            </div>
+          )}
         </div>
         
         <div
           ref={scrollRef}
-          className="flex gap-6 overflow-x-auto hide-scrollbar snap-x snap-mandatory"
+          className="flex gap-4 md:gap-6 overflow-x-auto pb-4 snap-x snap-mandatory hide-scrollbar"
           style={{ 
             scrollbarWidth: 'none', 
             msOverflowStyle: 'none',
           }}
         >
-          {events.map((event) => (
-            <div key={event.id} className="snap-start">
-              <EventCard event={event} />
+          {events.length > 0 ? (
+            events.map((event) => (
+              <div key={event.id} className="snap-start flex-shrink-0">
+                <EventCard event={event} />
+              </div>
+            ))
+          ) : (
+            <div className="w-full text-center py-8">
+              <p className="text-gray-500">No events available at the moment.</p>
             </div>
-          ))}
+          )}
         </div>
+        
+        {/* Mobile-friendly pagination indicators */}
+        {showControls && events.length > 1 && (
+          <div className="flex justify-center mt-4 gap-1.5 md:hidden">
+            {events.map((_, index) => (
+              <div
+                key={index}
+                className="w-2 h-2 rounded-full bg-gray-300"
+                aria-hidden="true"
+              />
+            ))}
+          </div>
+        )}
       </div>
-    </div>
+    </section>
   );
 };
 
