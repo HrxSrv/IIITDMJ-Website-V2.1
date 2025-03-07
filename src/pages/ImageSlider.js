@@ -9,6 +9,7 @@ const ImageSlider = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [direction, setDirection] = useState(1); // 1 for right, -1 for left
   const slidesRef = useRef({});
+  const containerRef = useRef(null);
 
   // Preload images
   useEffect(() => {
@@ -77,7 +78,15 @@ const ImageSlider = () => {
   }
 
   return (
-    <div className="relative w-full h-[90vh] overflow-hidden">
+    <div className="relative w-full h-[90vh] overflow-hidden" ref={containerRef}>
+      {/* Fixed background layer to prevent the flicker/jump */}
+      <div 
+        className="absolute inset-0 w-full h-full bg-black"
+        style={{
+          backgroundImage: `linear-gradient(135deg, #000 0%, #0a2463 100%)`,
+        }}
+      />
+      
       <AnimatePresence initial={false} mode="popLayout">
         <motion.div
           key={currentIndex}
@@ -92,7 +101,12 @@ const ImageSlider = () => {
           }}
           exit={{ 
             x: direction > 0 ? "-100%" : "100%",
-            opacity: 0.5
+            opacity: 0.5,
+            transition: { 
+              type: "tween", 
+              ease: "easeInOut", 
+              duration: 0.6 
+            }
           }}
           transition={{ 
             type: "tween", 
@@ -101,27 +115,24 @@ const ImageSlider = () => {
           }}
         >
           <div 
-  className="absolute inset-0 w-full h-full bg-cover bg-center"
-  style={{
-    backgroundImage: `url(${slides[currentIndex].image_url})`,
-    backgroundAttachment: "fixed",
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    // Fallback background when image fails to load
-    backgroundColor: "#000",
-    backgroundImage: `url(${slides[currentIndex].image_url}), linear-gradient(135deg, #000 0%, #0a2463 100%)`,
-  }}
->
-  <div className="absolute inset-0 bg-black opacity-40"></div>
-</div>
+            className="absolute inset-0 w-full h-full"
+            style={{
+              backgroundImage: `url(${slides[currentIndex].image_url})`,
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              willChange: "transform", // Optimize for animations
+            }}
+          />
+          <div className="absolute inset-0 bg-black opacity-40"></div>
         </motion.div>
       </AnimatePresence>
 
-      <div className="absolute inset-0 flex flex-col justify-center items-center text-white px-4 md:px-10 z-2 bg-gradient-to-b from-black/50 via-black/30 to-transparent">
+      <div className="absolute inset-0 flex flex-col justify-center items-center text-white px-4 md:px-10 z-2 bg-gradient-to-b from-black/50 via-black/30 to-transparent pointer-events-none">
         <AnimatePresence mode="wait">
           <motion.div
             key={`content-${currentIndex}`}
-            className="text-center"
+            className="text-center pointer-events-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -131,7 +142,6 @@ const ImageSlider = () => {
               className="text-3xl md:text-8xl font-bold text-center mb-4"
               style={{
                 fontFamily: "Canela Deck Web, serif",
-                fontStyle: "normal",
                 fontWeight: "400",
                 letterSpacing: "-0.1px",
                 lineHeight: "1.15",
@@ -164,7 +174,7 @@ const ImageSlider = () => {
                   rel="noopener noreferrer"
                   className="inline-block"
                 >
-                  <button className="px-8 py-2 bg-white bg-opacity-20 backdrop-blur-lg rounded-md text-white text-lg border border-white/30 hover:bg-white/30 hover:border-white/50 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg">
+                  <button className="px-8 py-2 bg-white bg-opacity-20  rounded-md text-white text-lg border border-white/30 hover:bg-white/30 hover:border-white/50 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg">
                     See More
                   </button>
                 </a>
@@ -174,25 +184,8 @@ const ImageSlider = () => {
         </AnimatePresence>
       </div>
 
-      {/* <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              currentIndex === index ? "w-8 bg-white" : "bg-white/40"
-            }`}
-            onClick={() => {
-              setPreviousIndex(currentIndex);
-              setDirection(index > currentIndex ? 1 : -1);
-              setCurrentIndex(index);
-            }}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div> */}
-
       <button
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-black/30 backdrop-blur-lg text-white p-3 rounded-full focus:outline-none hover:bg-black/50 transition-all duration-300"
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/30 backdrop-blur-lg text-white p-3 rounded-full focus:outline-none hover:bg-black/50 transition-all duration-300"
         onClick={prevSlide}
         aria-label="Previous slide"
       >
@@ -202,7 +195,7 @@ const ImageSlider = () => {
       </button>
 
       <button
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-black/30 backdrop-blur-lg text-white p-3 rounded-full focus:outline-none hover:bg-black/50 transition-all duration-300"
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-black/30 backdrop-blur-lg text-white p-3 rounded-full focus:outline-none hover:bg-black/50 transition-all duration-300"
         onClick={nextSlide}
         aria-label="Next slide"
       >
