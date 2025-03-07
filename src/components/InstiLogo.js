@@ -150,9 +150,9 @@ const InstituteBanner = ({ isVisible }) => {
                     : 'opacity-0 -translate-y-full'
                 }`}
               >
-                <h2 className="text-lg md:text-4xl lg:text-3xl font-semibold text-white" style={{textShadow: "0 4px 6px rgba(0, 0, 0, 0.3)"}}>
+                <motion.h2 className="text-lg md:text-4xl lg:text-3xl font-semibold text-white" style={{textShadow: "0 4px 6px rgba(0, 0, 0, 0.3)"}}>
                   भारतीय सूचना प्रौद्योगिकी, अभिकल्प एवं विनिर्माण संसथान जबलपुर
-                </h2>
+                </motion.h2>
               </div>
 
               {/* English Text */}

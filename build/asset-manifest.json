@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "./static/css/main.a43f52af.css",
-    "main.js": "./static/js/main.86961a05.js",
+    "main.css": "./static/css/main.2dab5768.css",
+    "main.js": "./static/js/main.de388711.js",
     "static/js/171.6cf6aae7.chunk.js": "./static/js/171.6cf6aae7.chunk.js",
     "static/js/797.f03cb1ec.chunk.js": "./static/js/797.f03cb1ec.chunk.js",
     "static/js/939.11baf871.chunk.js": "./static/js/939.11baf871.chunk.js",
@@ -18,8 +18,8 @@
     "static/media/newsPlaceHolder.png": "./static/media/newsPlaceHolder.36da1fc20ac8111624d8.png",
     "static/media/IIIT_logo_1.png": "./static/media/IIIT_logo_1.64a006379d6acc84fd22.png",
     "index.html": "./index.html",
-    "main.a43f52af.css.map": "./static/css/main.a43f52af.css.map",
-    "main.86961a05.js.map": "./static/js/main.86961a05.js.map",
+    "main.2dab5768.css.map": "./static/css/main.2dab5768.css.map",
+    "main.de388711.js.map": "./static/js/main.de388711.js.map",
     "171.6cf6aae7.chunk.js.map": "./static/js/171.6cf6aae7.chunk.js.map",
     "797.f03cb1ec.chunk.js.map": "./static/js/797.f03cb1ec.chunk.js.map",
     "939.11baf871.chunk.js.map": "./static/js/939.11baf871.chunk.js.map",
@@ -32,7 +32,7 @@
     "780.2bda8c0c.chunk.js.map": "./static/js/780.2bda8c0c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a43f52af.css",
-    "static/js/main.86961a05.js"
+    "static/css/main.2dab5768.css",
+    "static/js/main.de388711.js"
   ]
 }
