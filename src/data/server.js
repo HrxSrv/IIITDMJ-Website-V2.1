@@ -15,6 +15,7 @@ const eventImagesModal = require('./modals/eventImagesModal');
 const redAnnouncementsModal = require('./modals/redAnnouncementsModal')
 const gymkhanaNotificationsModal = require('./modals/gymkhanaNotificationsModal')
 const facultyPicModal = require('./modals/facultyPicModal')
+const jobsModal = require('./modals/jobsModal')
 // const textModal = require('./modals/textModal')
 // const tendersModal = require('./modals/tendersModal');
 const path = require('path');
@@ -99,3 +100,4 @@ server.use("/shopsInfo", require("./routes/shopsInfo"))
 server.use("/positionsInfo", require("./routes/positionsInfo"))
 server.use("/linksInfo", require("./routes/linksInfo"))
 server.use("/downloads", require("./routes/downloads"))
+server.use("/jobs", require("./routes/jobs"))

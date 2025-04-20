@@ -92,6 +92,7 @@ import CalendersPage from './pages/Calenders';
 import DownloadsPage from './pages/Downloads';
 import DirectorsMessage from './pages/DirectorsPage';
 import ImportantForms from './pages/more/facilities/importantForms';
+import Test from './pages/more/academics/test2';
 const router = createHashRouter([
   {
       path:"*",
@@ -110,6 +111,10 @@ const router = createHashRouter([
       {
         path:'/jobs',
         element: <Job/>
+      },
+      {
+        path:'/test',
+        element: <Test/>
       },
       {
         path:'/directorPage',

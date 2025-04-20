@@ -87,6 +87,68 @@ const ProgramsPage = () => {
               </div>
             </div>
 
+            <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+  <div className="flex items-center mb-6">
+    <BookOpen className="w-8 h-8 text-blue-600 mr-4" />
+    <h2 className="text-2xl font-bold">PHD Programme</h2>
+  </div>
+  <p className="mb-6 font-medium">
+    Institute offers Four Year Undergraduate degree (B.Tech.) programme in:
+  </p>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+    {['Computer Science & Engineering', 'Electronics & Communication Engineering', 'Design', 'Mechanical Engineering', 'Smart Manufacturing'].map((program) => (
+      <div key={program} className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-blue-50 transition-colors">
+        <School className="w-5 h-5 text-blue-600 mr-3" />
+        <span className="font-medium">{program}</span>
+      </div>
+    ))}
+  </div>
+  <div className="overflow-x-auto">
+    <table className="w-full border-collapse">
+      <thead>
+        <tr className="bg-gray-100">
+          <th className="border p-3 text-left">Program</th>
+          <th className="border p-3 text-left">Duration</th>
+          <th className="border p-3 text-left">Intake</th>
+          <th className="border p-3 text-left">Eligibility</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td className="border p-3">Computer Science & Engineering</td>
+          <td className="border p-3">4 Years</td>
+          <td className="border p-3">120 seats</td>
+          <td className="border p-3">10+2 with PCM</td>
+        </tr>
+        <tr>
+          <td className="border p-3">Electronics & Communication Engineering</td>
+          <td className="border p-3">4 Years</td>
+          <td className="border p-3">90 seats</td>
+          <td className="border p-3">10+2 with PCM</td>
+        </tr>
+        <tr>
+          <td className="border p-3">Design</td>
+          <td className="border p-3">4 Years</td>
+          <td className="border p-3">60 seats</td>
+          <td className="border p-3">10+2 with any stream</td>
+        </tr>
+        <tr>
+          <td className="border p-3">Mechanical Engineering</td>
+          <td className="border p-3">4 Years</td>
+          <td className="border p-3">90 seats</td>
+          <td className="border p-3">10+2 with PCM</td>
+        </tr>
+        <tr>
+          <td className="border p-3">Smart Manufacturing</td>
+          <td className="border p-3">4 Years</td>
+          <td className="border p-3">60 seats</td>
+          <td className="border p-3">10+2 with PCM</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
             {/* Postgraduate Section */}
             <div className="bg-white rounded-xl shadow-lg p-8">
               <div className="flex items-center mb-6">

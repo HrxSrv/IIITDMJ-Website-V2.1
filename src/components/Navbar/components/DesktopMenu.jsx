@@ -105,7 +105,7 @@ export default function DesktopMenu({ menu }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-             <p className="shadow">{menu.name}</p>
+             <p >{menu.name}</p>
             {/* <ExternalLink size={12} className="ml-1" /> */}
           </a>
         ) : (
