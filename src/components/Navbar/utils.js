@@ -156,7 +156,7 @@ export const Menus = [
             href: "https://docs.google.com/forms/d/1-bNPq1bkzlOCv6O8gI7nUcnJrIITqKAkAG3CrdQrHoU",
           },
           { name: "Form for submission of thesis" },
-          { name: "Convocation", href: "/convocation" },
+          { name: "Convocation", href: "/convocations" },
         ],
       },
       {

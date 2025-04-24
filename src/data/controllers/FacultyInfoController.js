@@ -6,7 +6,7 @@ const pool = require("../connection");
 async function getFacultyHonors(userId) {
   const query = `
     SELECT t.id, title, description, "period"
-    FROM dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    FROM dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
          'SELECT auth_user.id, eis_honors.title, description, "period" 
           FROM auth_user, globals_extrainfo, eis_faculty_about, eis_honors
           WHERE auth_user.id=globals_extrainfo.user_id
@@ -23,7 +23,7 @@ async function getFacultyHonors(userId) {
 async function getFacultyQualifications(userId) {
   const query = `
     SELECT t.id, "degree", college
-    FROM dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    FROM dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
          'SELECT auth_user.id, "degree", college 
           FROM auth_user, globals_extrainfo, eis_faculty_about, eis_qualifications
           WHERE auth_user.id=globals_extrainfo.user_id
@@ -40,7 +40,7 @@ async function getFacultyQualifications(userId) {
 async function getFacultyExperience(userId) {
   const query = `
     SELECT t.id, title, description, "from", "to"
-    FROM dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    FROM dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
          'SELECT auth_user.id, eis_professional_experience.title, description, "from", "to" 
           FROM auth_user, globals_extrainfo, eis_faculty_about, eis_professional_experience
           WHERE auth_user.id=globals_extrainfo.user_id
@@ -57,7 +57,7 @@ async function getFacultyExperience(userId) {
 async function getFacultyAdminPosition(userId) {
   const query = `
     SELECT t.id, title, description, "from", "to"
-    FROM dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    FROM dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
          'SELECT auth_user.id, eis_administrative_position.title, description, "from", "to" 
           FROM auth_user, globals_extrainfo, eis_faculty_about, eis_administrative_position
           WHERE auth_user.id=globals_extrainfo.user_id
@@ -77,7 +77,7 @@ async function getFacultyBasicInfo(userId) {
     t.contact, t.address, fpp.profile_pic AS profile_picture, 
     t.department, t.about, t.interests, t.linkedin, t.github
 FROM 
-    dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
            'SELECT auth_user.id AS id, 
                    auth_user.first_name AS first_name, 
                    auth_user.last_name AS last_name, 
@@ -122,7 +122,7 @@ async function getAllFaculties(branch_id) {
     t.contact, t.address, fpp.profile_pic AS profile_picture, 
     t.department, t.about, t.interests
 FROM 
-    dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
            'SELECT auth_user.id AS id, 
                    auth_user.first_name AS first_name, 
                    auth_user.last_name AS last_name, 
@@ -160,7 +160,7 @@ async function getFacultyCourses(userId) {
   const query = `
     SELECT DISTINCT course_code, course_name, discipline
     FROM 
-    dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
            'SELECT pc_course.code AS course_code, 
                    pc_course.name AS course_name, 
                    pc_discipline.name AS discipline
@@ -184,7 +184,7 @@ async function getSpecialization(userId) {
   const query = `
     SELECT about
     FROM 
-    dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
            'SELECT faculty_about.about AS about
             FROM auth_user
             JOIN eis_faculty_about AS faculty_about 
@@ -201,7 +201,7 @@ async function getProjects(userId) {
   const query = `
     SELECT title, pi, co_pi, start_date, finish_date
     FROM 
-    dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
            'SELECT research_projects.title AS title,pi,co_pi,start_date,finish_date
             FROM auth_user
             JOIN eis_emp_research_projects AS research_projects 
@@ -217,11 +217,11 @@ async function getPatents(userId) {
   const query = `
   SELECT title, p_no, status, p_year
   FROM 
-  dblink('dbname=fusionlab user=superAdmin password=9455957884', 
-          'SELECT petents.title as title , p_no,status,p_year
+  dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
+          'SELECT petents.title as title, p_no, status, p_year
            FROM auth_user
           JOIN eis_emp_patents AS petents 
-          ON CAST(auth_user.id AS varchar) = petents.pf_no
+          ON auth_user.id = CAST(petents.pf_no AS integer)
           WHERE auth_user.id = ${userId}'
           ) AS t(title text, p_no varchar, status varchar, p_year integer);
           
@@ -233,7 +233,7 @@ async function getConsultancyProjects(userId) {
   const query = `
   SELECT title, consultants, client, financial_outlay, start_date, end_date, status, remarks
   FROM 
-  dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+  dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
          'SELECT consultancy_projects.title, consultants, client, financial_outlay, start_date, end_date, status, remarks
           FROM auth_user
           JOIN eis_emp_consultancy_projects AS consultancy_projects 
@@ -251,7 +251,7 @@ async function getBooks(userId) {
   const query = `
     SELECT title, authors, publisher, pyear
     FROM 
-    dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
            'SELECT published_books.title AS title,authors,publisher,pyear
             FROM auth_user
             JOIN eis_emp_published_books AS published_books 
@@ -268,7 +268,7 @@ async function getPublications(userId) {
   const query = `
     SELECT authors, title_paper, name, volume_no, page_no, year, doi, rtype
     FROM 
-    dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
            'SELECT authors, title_paper, name, volume_no, page_no, year, doi, rtype
             FROM auth_user
             JOIN eis_emp_research_papers AS research_papers 
@@ -284,7 +284,7 @@ async function getConferences(userId) {
   const query = `
     (SELECT role, name, venue, start_date
     FROM 
-    dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
            'SELECT role, name, venue, start_date
             FROM auth_user
             JOIN eis_emp_event_organized AS event_organized 
@@ -294,7 +294,7 @@ async function getConferences(userId) {
     UNION
     (SELECT role, name, venue, start_date
     FROM 
-    dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
            'SELECT role1 AS role, name, venue, start_date
             FROM auth_user
             JOIN eis_emp_confrence_organised AS confrence_organised 
@@ -310,7 +310,7 @@ async function getOrganizedEvents(userId) {
   const query = `
     SELECT role, name, venue, start_date
     FROM 
-    dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
            'SELECT role, name, venue, start_date
             FROM auth_user
             JOIN eis_emp_event_organized AS event_organized 
@@ -325,7 +325,7 @@ async function getOrganizedConferences(userId) {
   const query = `
     SELECT role, name, venue, start_date
     FROM 
-    dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
            'SELECT role1 AS role, name, venue, start_date
             FROM auth_user
             JOIN eis_emp_confrence_organised AS confrence_organised 
@@ -341,7 +341,7 @@ async function getStudents(userId) {
   const query = `
     SELECT rollno, s_name, status, s_year, title, co_supervisors
     FROM 
-    dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
            'SELECT rollno, s_name, status, s_year, title, co_supervisors
             FROM auth_user
             JOIN eis_emp_mtechphd_thesis AS mtech_phd_thesis 
@@ -360,7 +360,7 @@ const getAllFaculty = async (req, res) => {
     t.id, t.user_type, t.first_name, t.last_name, t.email, 
     t.address, t.phone_no, fpp.profile_pic AS profile_picture
 FROM 
-    dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+    dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
           'SELECT auth_user.id, user_type, first_name, last_name, email, address, phone_no 
            FROM auth_user 
            JOIN globals_extrainfo ON auth_user.id = globals_extrainfo.user_id
@@ -382,11 +382,11 @@ const getFacultyVisits = async (userId) => {
   const query = `
   SELECT country, place, purpose, start_date, end_date
   FROM 
-  dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+  dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
          'SELECT visits.country, visits.place, visits.purpose, visits.start_date, visits.end_date
           FROM auth_user
           JOIN eis_emp_visits AS visits 
-          ON CAST(auth_user.id AS varchar) = visits.pf_no
+          ON CAST(auth_user.id AS varchar) = visits.pf_no AND auth_user.id = visits.user_id
           WHERE auth_user.id = ${userId}'
         ) AS t(country varchar, place varchar, purpose varchar, start_date date, end_date date);
 `;
@@ -398,7 +398,7 @@ const getFacultyAchievements = async (userId) => {
   const query = `
   SELECT a_type,details,a_year
   FROM 
-  dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+  dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
          'SELECT achievements.a_type,achievements.details,achievements.a_year
           FROM auth_user
           JOIN eis_emp_achievement AS achievements 
@@ -414,7 +414,7 @@ const getFacultyExpertLectures = async (userId) => {
   const query = `
   SELECT l_type,title,l_date, place
   FROM 
-  dblink('dbname=fusionlab user=superAdmin password=9455957884', 
+  dblink('dbname=fusion_EIS user=superAdmin password=9455957884', 
          'SELECT expertLecture.l_type,expertLecture.title,expertLecture.l_date,expertLecture.place
           FROM auth_user
           JOIN eis_emp_expert_lectures AS expertLecture 

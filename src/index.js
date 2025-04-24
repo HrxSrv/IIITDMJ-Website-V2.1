@@ -93,6 +93,8 @@ import DownloadsPage from './pages/Downloads';
 import DirectorsMessage from './pages/DirectorsPage';
 import ImportantForms from './pages/more/facilities/importantForms';
 import Test from './pages/more/academics/test2';
+import ConvocationsPage from './pages/more/academics/convocations';
+import ConvocationDetailPage from './pages/more/academics/convocationPage';
 const router = createHashRouter([
   {
       path:"*",
@@ -336,6 +338,10 @@ const router = createHashRouter([
         path:"/screenreaderaccess",
         element:<ScreenReaderAccess/> 
       },
+      { 
+        path:"/convocationPage/:id",
+        element:<ConvocationDetailPage/> 
+      },
       
       //academics
       // {
@@ -409,6 +415,10 @@ const router = createHashRouter([
       {
         path: "/importantForms",
         element: <ImportantForms/>,
+      },
+      {
+        path: "/convocations",
+        element: <ConvocationsPage/>,
       }
     ],
   },

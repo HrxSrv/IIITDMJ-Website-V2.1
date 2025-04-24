@@ -30,7 +30,8 @@ import {
   Download,
   Dumbbell,
   ImageIcon,
-  Workflow
+  Workflow,
+  PartyPopperIcon
 } from 'lucide-react';
 
 // Products Module
@@ -60,6 +61,7 @@ import CalendarsManager from './adminModules/calendarsModule';
 import GymkhanaNotificationsManager from './adminModules/gymkhanaNotificationsModule';
 import FacultyPicManager from './adminModules/facultyPicModule';
 import JobsManager from './adminModules/jobsModule';
+import ConvocationManager from './adminModules/convocationModule';
 // Main Admin Portal Component
 const Page = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -79,6 +81,7 @@ const Page = () => {
     { id: 'GymkhanaNotifications', name: 'Gymkhana Notifications', icon: Dumbbell },
     { id: 'tenders', name: 'Tenders', icon: DollarSign },
     { id: 'jobs', name: 'Jobs', icon: Workflow },
+    { id: 'convocations', name: 'Convocations', icon: PartyPopperIcon },
     { id: 'calendars', name: 'Calendars', icon: Calendar },
     { id: 'slides', name: 'Home Page Slides', icon: Image},
     { id: 'news', name: 'News', icon: NewspaperIcon },
@@ -130,6 +133,8 @@ const Page = () => {
         return <TendersManger />;
       case 'jobs':
         return <JobsManager />;
+      case 'convocations':
+        return <ConvocationManager />;
       case 'calendars':
         return <CalendarsManager/>
       case 'events':

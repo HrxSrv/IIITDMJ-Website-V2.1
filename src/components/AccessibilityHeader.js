@@ -84,10 +84,10 @@ const AccessibilityHeader = () => {
             <Linkedin size={16} className="text-white hover:text-gray-300 transition duration-200" />
             <Facebook size={16} className="text-white hover:text-gray-300 transition duration-200" />
             <Link to='/screenreaderaccess'><SpeakerIcon size={16} className="text-white hover:text-gray-300 transition duration-200"/></Link>
-            <select className="bg-black text-white border-none text-sm hover:text-gray-300 transition duration-200">
+            {/* <select className="bg-black text-white border-none text-sm hover:text-gray-300 transition duration-200">
               <option>हिन्दी</option>
               <option>English</option>
-            </select>
+            </select> */}
             {/* Font size adjustment buttons */}
             <button 
               onClick={() => dispatch(decreaseFontSize())} 

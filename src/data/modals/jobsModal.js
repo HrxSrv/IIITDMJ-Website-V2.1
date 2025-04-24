@@ -13,6 +13,10 @@ Job.init({
     type: DataTypes.TEXT,
     allowNull: false
   },
+  readMore: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
   jobType: {
     type: DataTypes.STRING(50),
     allowNull: false,

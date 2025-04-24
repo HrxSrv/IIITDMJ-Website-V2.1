@@ -154,6 +154,20 @@ const JobsPortal = () => {
                   <JobTypeIcon type={job.jobType} />
                 </div>
                 <h2 className="text-xl font-bold text-gray-900">{job.advertTitle}</h2>
+                
+                {/* Read More Button */}
+               {job.readMore && (
+                  <a 
+                    href={job.readMore} 
+                    className="ml-4 px-3 py-1 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 transition-colors flex items-center"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ExternalLink className="w-3 h-3 mr-1" />
+                    Read More
+                  </a>
+                )}
+
               </div>
               <div className="flex flex-wrap items-center gap-4 mt-2 text-gray-600">
                 <div className="flex items-center">
