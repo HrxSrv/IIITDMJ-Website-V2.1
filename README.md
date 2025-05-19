@@ -27,7 +27,7 @@
 
 ## Getting Started
 
-To get started with G-Campus, follow these steps:
+To get started with, follow these steps:
 
 1. **Clone the repository**:
 2. Run npm install
