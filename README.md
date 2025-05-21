@@ -34,4 +34,4 @@ To get started with, follow these steps:
 3. add .env files
 4. setup postgres db
 5. setup redis db
-6. run npm start
+6. run npm run both
