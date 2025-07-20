@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=${Fusion_DB_USER}
+      - DB_PASSWORD=${Fusion_DB_PASSWORD}
+      - DB_NAME=${Fusion_DB_NAME}
+    depends_on:
+      - db-init
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  db:
+    image: postgres:15
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${Fusion_DB_USER}
+      - POSTGRES_PASSWORD=${Fusion_DB_PASSWORD}
+      - POSTGRES_DB=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${Fusion_DB_USER} -d fusionlab"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  db-init:
+    image: postgres:15
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - PGPASSWORD=${Fusion_DB_PASSWORD}
+      - POSTGRES_USER=${Fusion_DB_USER}
+    volumes:
+      - ./db_backups:/db_backups
+    command: |
+      bash -c "
+        echo 'Waiting for postgres...'
+        until pg_isready -h db -p 5432 -U $${POSTGRES_USER}; do
+          echo 'PostgreSQL is unavailable - sleeping'
+          sleep 1
+        done
+        echo 'PostgreSQL is up - creating databases'
+        
+        # Create databases
+        createdb -h db -U $${POSTGRES_USER} IIITDMJ || echo 'IIITDMJ database might already exist'
+        createdb -h db -U $${POSTGRES_USER} fusionlab || echo 'fusionlab database might already exist'
+        
+        # Restore from backups
+        psql -h db -U $${POSTGRES_USER} -d IIITDMJ < /db_backups/iiitdmj.sql
+        psql -h db -U $${POSTGRES_USER} -d fusionlab < /db_backups/fusionlab.sql
+        
+        echo 'Database setup completed'
+      "
+    restart: "no"
+
+volumes:
+  pgdata:

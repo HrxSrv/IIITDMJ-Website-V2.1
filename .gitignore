@@ -8,7 +8,7 @@
 # testing
 /coverage
 
-
+src/data/node_modules
 
 # misc
 .env
